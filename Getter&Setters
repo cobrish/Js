@@ -1,0 +1,18 @@
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  language : "",
+  get fullName() {
+    return this.firstName + " " + this.lastName;
+  }
+  set lang(lang) {
+    this.language = lang.toUpperCase();
+  }
+};
+
+
+// Set an object property using a setter:
+person.lang = "en";
+
+// Display data from the object:
+document.getElementById("demo").innerHTML = person.language;
