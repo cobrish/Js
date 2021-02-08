@@ -1,0 +1,153 @@
+//"async and await make promises easier to write". //async makes a function return a Promise. //await makes a function wait for a Promise
+
+//Waiting for a file:
+
+async function getFile() {
+  let myPromise = new Promise(function(myResolve, myReject) {
+    let req = new XMLHttpRequest();
+    req.open('GET', "mycar.html");
+    req.onload = function() {
+      if (req.status == 200) {myResolve(req.response);}
+      else {myResolve("File not Found");}
+    };
+    req.send();
+  });
+  document.getElementById("demo").innerHTML = await myPromise;
+}
+
+getFile();
+
+// ////////////////////
+async function myFunction() {
+  return "Hello";
+}
+myFunction().then(
+  function(value) {myDisplayer(value);},
+  function(error) {myDisplayer(error);}
+);
+
+// ////////////////////
+async function myFunction() {
+  return "Hello";
+}
+myFunction().then(
+  function(value) {myDisplayer(value);},
+);
+
+// /////////////////////
+//The await keyword can only be used inside an async function.
+
+async function myDisplay() {
+  let myPromise = new Promise(function(myResolve, myReject) {
+    myResolve("I love You !!");
+  });
+  document.getElementById("demo").innerHTML = await myPromise;
+}
+
+myDisplay();
+
+// //////////////
+//Waiting for a Timeout:
+async function myDisplay() {
+  let myPromise = new Promise(function(myResolve, myReject) {
+    setTimeout(function() { myResolve("I love You !!"); }, 3000);
+  });
+  document.getElementById("demo").innerHTML = await myPromise;
+}
+
+myDisplay();
+// /////////////////
+
+//A Promise is a JavaScript object that links producing code and consuming code
+//A JavaScript Promise object contains both the producing code and calls to the consuming code
+//You cannot access the Promise properties state and result.
+
+// ////////////////////////
+let myPromise = new Promise(function(myResolve, myReject) {
+// "Producing Code" (May take some time)
+
+  myResolve(); // when successful
+  myReject();  // when error
+});
+
+// "Consuming Code" (Must wait for a fulfilled Promise)
+myPromise.then(
+  function(value) { /* code if successful */ },
+  function(error) { /* code if some error */ }
+);
+
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+// ////////////////////////////
+let myPromise = new Promise(function(myResolve, myReject) {
+  let x = 0;
+
+// The producing code (this may take some time)
+
+  if (x == 0) {
+    myResolve("OK");
+  } else {
+    myReject("Error");
+  }
+});
+
+myPromise.then(
+  function(value) {myDisplayer(value);},
+  function(error) {myDisplayer(error);}
+);
+
+// ///////////////////////////
+// Waiting for a TimeOut --> without Promise
+setTimeout(function() { myFunction("I love You !!!"); }, 3000);
+
+function myFunction(value) {
+  document.getElementById("demo").innerHTML = value;
+}
+
+// Waiting for a TimeOut --> With Promise
+let myPromise = new Promise(function(myResolve, myReject) {
+  setTimeout(function() { myResolve("I love You !!"); }, 3000);
+});
+
+myPromise.then(function(value) {
+  document.getElementById("demo").innerHTML = value;
+});
+
+//Asynchronous
+
+//Functions running in parallel with other functions are called asynchronous
+
+//Waiting for a file
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+function getFile(myCallback) {
+  let req = new XMLHttpRequest();
+  req.open('GET', "mycar.html");
+  req.onload = function() {
+    if (req.status == 200) {
+      myCallback(this.responseText);
+    } else {
+      myCallback("Error: " + req.status);
+    }
+  }
+  req.send();
+}
+
+getFile(myDisplayer);
+
+// ///////////////////////////
+
+setInterval(myFunction, 1000);
+
+function myFunction() {
+  let d = new Date();
+  document.getElementById("demo").innerHTML=
+  d.getHours() + ":" +
+  d.getMinutes() + ":" +
+  d.getSeconds();
+}
+
