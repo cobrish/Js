@@ -7,3 +7,8 @@ function Person(first, last, age, eyecolor) {
 }
 
 Person.prototype.nationality = "English";
+
+
+Person.prototype.name = function() {
+  return this.firstName + " " + this.lastName;
+};
